@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLAR WEBSITE</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style3.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <h2 class="logo">☀ ME</h2>
+
+    <i class="ri-menu-unfold-3-line menu-open"></i>
+
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+      <li><a href="gallary.html">GALLERY</a></li>
+      <li><a href="services.html">SERVICES</a></li>
+      <li><a href="contact.html" class="ctn">CONTACT</a></li>
+    </ul>
+
+    <i class="ri-menu-fold-3-line menu-close"></i>
+  </nav>
+
+
+  <!-- GALLERY SECTION -->
+  <section>
+
+    <h4>Our Solar Projects</h4>
+
+    <div class="gallery-category" id="galleryData">
+
+      <div class="card show">
+        <img src="images/solar-image17.jpg">
+        <h3>Residential Projects</h3>
+        <p>Residential rooftop solar installation with maximum efficiency.</p>
+        <button onclick="openCategory('residential')">View Details</button>
+      </div>
+
+      <div class="card show">
+        <img src="images/solar-image21.jpg">
+        <h3>Commercial Projects</h3>
+        <p>Large-scale commercial solar farm powering multiple businesses.</p>
+        <button onclick="openCategory('commercial')">View Details</button>
+      </div>
+
+      <div class="card show">
+        <img src="images/solar-image23.jpg">
+        <h3>Industrial Projects</h3>
+        <p>Industrial rooftop solar panels for sustainable energy solutions.</p>
+        <button onclick="openCategory('industrial')">View Details</button>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MODAL -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+
+      <span class="close" onclick="closeProjectModal()">×</span>
+
+      <h2 id="modalTitle"></h2>
+      <p id="modalDesc"></p>
+
+      <div id="modalImages"></div>
+
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-container">
+
+      <!-- Company Info -->
+      <div class="footer-section">
+        <h3>Solar Bright Energy</h3>
+        <p>Providing clean, renewable solar energy solutions for homes and businesses. Save money. Save the planet.</p>
+        <a href="#" class="cta-button">Get Free Quote</a>
+      </div>
+
+      <!-- Services -->
+      <div class="footer-section">
+        <h3>Our Services</h3>
+        <ul>
+         <li><a href="residential.html">RESIDENTIAL SOLAR</a></li>
+         <li><a href="commertial.html">COMMERCIAL SOLAR</a></li>
+         <li><a href="industrial.html">INDUSTRIAL SOLAR</a></li>
+         
+         
+       </ul>
+     </div>
+
+     <!-- Contact Info -->
+     <div class="footer-section">
+      <h3>Contact Us</h3>
+      <p>Email: info@solarbright.com</p>
+      <p>Phone: +1 234 567 890</p>
+      
+      
+      <div class="social-icons">
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Solar Bright Energy | Powered by Clean Energy 🌞
+  </div>
+</footer>
+
+<script>
+
+  function openCategory(category) {
+
+    // Modal open
+    document.getElementById("projectModal").style.display = "flex";
+
+    document.getElementById("modalTitle").innerText = category.toUpperCase() + " Projects";
+    document.getElementById("modalDesc").innerText = "";
+
+    const imagesDiv = document.getElementById("modalImages");
+    imagesDiv.innerHTML = "Loading...";
+
+    // Fetch category wise data
+    fetch(`getProjects.php?category=${category}`)
+    .then(res => res.json())
+    .then(projects => {
+
+      imagesDiv.innerHTML = "";
+
+      if (projects.length === 0) {
+        imagesDiv.innerHTML = "<p>No projects found</p>";
+        return;
+      }
+
+      projects.forEach(project => {
+
+        project.images.forEach(img => {
+          const image = document.createElement("img");
+          image.src = "uploads/" + img;
+
+                image.style.maxWidth = "100%";  // width flexible
+    image.style.height = "auto";    // maintain aspect ratio
+    image.style.margin = "5px";
+
+    imagesDiv.appendChild(image);
+  });
+
+      });
+    });
+  }
+
+  function closeProjectModal() {
+    document.getElementById("projectModal").style.display = "none";
+  }
+</script>
+</body>
+</html> 
